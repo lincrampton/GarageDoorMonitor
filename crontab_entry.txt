@@ -1,0 +1,1 @@
+*/5	*	*	*	*	/home/pi/GarageMonitor/takepic.sh

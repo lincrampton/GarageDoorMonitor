@@ -1,0 +1,50 @@
+June 28
+sudo rpi-update #firmware update
+
+July 6
+
+Tried to take a picture:
+	pi@raspberry:~ $ raspistill -w 1640 -h 922 -o jul6.jpg
+Received:
+	mmal: mmal_vc_component_enable: failed to enable component: ENOSPC
+	mmal: camera component couldn't be enabled
+	mmal: main: Failed to create camera component
+	mmal: Failed to run camera app. Please check for firmware updates
+
+First trying enabling camera:
+	sudo /usr/bin/raspi-config
+
+Still unsuccessful, so delete automatically running demo:
+	ps -elf | grep demo 
+
+Got
+	03:26:34 /usr/bin/python3 /home/pi/AIY-projects-python/src/examples/vision/joy/joy_detection_demo.py --enable_streaming --mdns_name Vision-Bonnet-0339 --blink_on_error
+
+(this could explain why it is randomly blinking)
+
+Need cron to be regularly running.  
+
+	Check cron status:
+		sudo service cron status
+
+	Start cron:
+		sudo service cron start
+
+	Possibly reinstall cron:
+		sudo apt install cron
+
+Want to make sure joy_detection_demo.py doesn't run on restart, so went to the directory and renamed files.
+	pi@raspberry:~/AIY-projects-python/src/examples/vision/joy $ ls -l
+	total 48
+	-rwxr-xr-x 1 pi pi   822 Nov 13  2019 install-services.sh
+	-rwxr-xr-x 1 pi pi   822 Jul  8 00:26 install-services.sh.sav
+	-rwxr-xr-x 1 pi pi 12658 Nov 13  2019 joy_detection_demo.py
+	-rwxr-xr-x 1 pi pi 12658 Jul  8 00:27 joy_detection_demo.py.sav
+	-rw-r--r-- 1 pi pi   491 Nov 13  2019 joy_detection_demo.service
+	-rw-r--r-- 1 pi pi   491 Jul  8 00:27 joy_detection_demo.service.sav
+
+
+
+
+
+
